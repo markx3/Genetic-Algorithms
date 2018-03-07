@@ -23,6 +23,8 @@ class Individual():
             return np.random.randint(0, size, size=size)
         elif enc == "REAL":
             return np.random.uniform(LO_BOUND, UP_BOUND, size=size)
+        else:
+            raise Exception('Invalid encoding.')
 
 class Population():
     ''' Defines a population as a set of individuals '''
@@ -66,16 +68,18 @@ def main():
     LO_BOUND = args.lower_bounds
     UP_BOUND = args.upper_bounds
 
+    # Define seed, if provided
     if args.seed:
         np.random.seed(args.seed)
 
+    # Create population
     pop = Population(args.enc.upper(), args.chromo, args.pop)
 
+    # Prints out verbose stuff.
     if args.verbose:
         print("Arguments: " + str(args) + "\n")
         print("Lower bound: " + str(LO_BOUND) + "\n" + "Upper bound: " + str(UP_BOUND) + "\n")
         print("Population: \n" + str(pop))
-
 
 if __name__ == '__main__':
     main()
