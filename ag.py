@@ -1,5 +1,6 @@
 import argparse
 import numpy as np
+from time import sleep
 
 LO_BOUND = 0
 UP_BOUND = 0
@@ -20,11 +21,9 @@ class Individual():
         elif enc == "INT":
             return np.random.randint(LO_BOUND, UP_BOUND, size=size)
         elif enc == "INT-PERM":
-            return np.random.randint(0, size, size=size)
+            return np.random.permutation(size)
         elif enc == "REAL":
             return np.random.uniform(LO_BOUND, UP_BOUND, size=size)
-        else:
-            raise Exception('Invalid encoding.')
 
 class Population():
     ''' Defines a population as a set of individuals '''
@@ -64,9 +63,15 @@ def main():
     # Parse arguments
     args = parser.parse_args()
 
-    # Define bounds, if any
-    LO_BOUND = args.lower_bounds
-    UP_BOUND = args.upper_bounds
+    # Define bounds, if any. Also checks encoding param.
+    encoding = args.enc.upper()
+    if encoding == "INT" or encoding == "REAL":
+        LO_BOUND = args.lower_bounds
+        UP_BOUND = args.upper_bounds
+    elif encoding == "BIN" or encoding == "INT-PERM":
+        pass
+    else:
+        raise Exception('Invalid encoding. Run the program with "-h" parameter for help.')
 
     # Define seed, if provided
     if args.seed:
@@ -75,11 +80,19 @@ def main():
     # Create population
     pop = Population(args.enc.upper(), args.chromo, args.pop)
 
-    # Prints out verbose stuff.
+    # Prints out verbose fun stuff.
     if args.verbose:
-        print("Arguments: " + str(args) + "\n")
-        print("Lower bound: " + str(LO_BOUND) + "\n" + "Upper bound: " + str(UP_BOUND) + "\n")
-        print("Population: \n" + str(pop))
+        print("+====================================+")
+        print("+===========  Welcome to  ===========+")
+        print("+=========== Verbose Mode ===========+")
+        print("+====================================+\n")
+        sleep(0.25)
+        print("==> Arguments: " + str(args) + "\n")
+        sleep(0.25)
+        print("==> Lower bound: " + str(LO_BOUND) + "\n" +
+              "==> Upper bound: " + str(UP_BOUND) + "\n")
+        sleep(0.25)
+        print("==> Population: \n" + str(pop) + "<==")
 
 if __name__ == '__main__':
     main()
