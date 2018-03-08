@@ -5,15 +5,12 @@ from time import sleep
 
 def main(args):
     ''' GA Project. Marcos Felipe Eipper @ 2018 | UDESC - CCT '''
-
-    # Define bounds, if any. Also checks encoding param.
-    encoding = args.enc.upper()
-    if encoding == "INT" or encoding == "REAL":
-        LO_BOUND = args.lower_bounds
-        UP_BOUND = args.upper_bounds
-    elif encoding == "BIN" or encoding == "INT-PERM":
-        pass
-    else:
+    # Checks encoding param.
+    enc = args.enc.upper()
+    if (enc  != "INT"      and
+        enc  != "REAL"     and
+        enc  != "INT-PERM" and
+        enc  != "BIN"        ):
         raise Exception('Invalid encoding.')
 
     # Define seed, if provided
@@ -33,6 +30,7 @@ def main(args):
         sleep(0.25)
         print("==> Arguments: " + str(args) + "\n")
         print("==> Population: \n" + str(pop) + "<==")
+
 
 def parse_args():
     # Create argument parser
